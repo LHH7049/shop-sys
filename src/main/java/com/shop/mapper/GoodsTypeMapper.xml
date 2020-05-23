@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper.GoodsTypeMapper">
+    <insert id="addGoodsType" parameterType="goodsType">
+        INSERT INTO shop.goodstype(typename)
+        VALUES (#{typename});
+    </insert>
+
+    <delete id="deleteGoodsType" >
+        DELETE FROM shop.goodstype
+        <where>
+            id=#{id};
+        </where>
+    </delete>
+
+    <update id="updateGoodsType" parameterType="goodsType">
+        UPDATE shop.goodstype SET typename=#{typename}
+        WHERE id=#{id};
+    </update>
+
+    <select id="queryGoodsTypeByName" resultType="goodsType">
+        select * from shop.goodstype WHERE typename=#{name};
+    </select>
+    
+    <select id="queryGoodsTypeByID" resultType="goodsType">
+        SELECT * FROM shop.goodstype WHERE id=#{id};
+    </select>
+
+    <select id="queryAllGoodsTypeByName" resultType="goodsType">
+        SELECT * FROM shop.goodstype
+        WHERE typename LIKE concat('%'#{name}'%');
+    </select>
+
+    <select id="queryAllGoodsType" resultType="goodsType">
+        SELECT * FROM shop.goodstype;
+    </select>
+
+    <select id="queryGoodsTypeByPage" parameterType="Map" resultType="goodsType">
+        SELECT * FROM shop.goodstype
+        limit ${(cur_page-1)*pageSize},#{pageSize}
+    </select>
+
+    <select id="queryGoodsTypeSum" resultType="Integer">
+        SELECT COUNT(1) FROM shop.goodstype;
+    </select>
+</mapper>

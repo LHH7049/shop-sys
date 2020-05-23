@@ -1,0 +1,23 @@
+body{
+	margin: 0 30px 10px ;
+}
+
+.top{
+	/*background-color: aliceblue;*/
+	line-height: 100px;
+	text-align: center;
+	font-size: 50px;
+	font-style: oblique;
+}
+
+.manage{
+	/*background-color: wheat;*/
+}
+
+footer{
+	line-height: 50px;
+	text-align: center;
+	/*background-color: aliceblue;*/
+	width: 100%;
+	position: absolute;
+}
