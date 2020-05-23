@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+         http://www.springframework.org/schema/context
+         https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--注解驱动  静态资源过滤  扫描包  视图解析器-->
+    <mvc:annotation-driven />
+
+    <mvc:default-servlet-handler />
+    <mvc:resources mapping="/css/**" location="/css/" />
+
+    <context:component-scan base-package="com.shop.controller" />
+    <context:component-scan base-package="com.shop.logs"/>
+
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--使用xml配置aop-->
+    <!-- 强制使用cglib代理，如果不设置，将默认使用jdk的代理，但是jdk的代理是基于接口的 -->
+    <aop:config proxy-target-class="true"/>
+    <aop:config>
+        <!--定义切面-->
+        <aop:aspect id="logAspect" ref="logInterceptor" >
+            <!--定义切入点-->
+            <aop:pointcut id="logPointCut" expression="execution(* com.shop.controller.*.*(..))" />
+            <!--<aop:before method="before" pointcut-ref="logPointCut"/>&lt;!&ndash;一个切入点的引用&ndash;&gt;-->
+            <!--<aop:after method="after" pointcut-ref="logPointCut"/>&lt;!&ndash;一个切入点的引用&ndash;&gt;-->
+            <!--<aop:after-throwing method="afterThrowing" pointcut-ref="logPointCut" />-->
+            <!--<aop:after-returning method="afterReturn" pointcut-ref="logPointCut" />-->
+            <aop:around method="around" pointcut-ref="logPointCut" />
+
+        </aop:aspect>
+    </aop:config>
+</beans>

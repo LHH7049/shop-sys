@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper.GoodMapper">
+    <insert id="addGood" parameterType="Good">
+        INSERT INTO shop.goodstable(gname,goprice,grprice,gstore,gpicture,goodstype_id)
+        VALUES (#{gname},#{goprice},#{grprice},#{gstore},#{gpicture},#{goodstype_id});
+    </insert>
+
+    <delete id="deleteGood" >
+        DELETE FROM shop.goodstable WHERE id=#{id};
+    </delete>
+
+    <update id="updateGood" parameterType="Good">
+        UPDATE shop.goodstable
+        SET gname= #{gname},goprice=#{goprice},
+        grprice=#{grprice},gstore=#{gstore},
+        gpicture=#{gpicture},goodstype_id=#{goodstype_id}
+        WHERE id=#{id} ;
+    </update>
+
+    <select id="queryGoodByName" resultType="Good">
+        SELECT * FROM shop.goodstable WHERE gname=#{name};
+    </select>
+
+    <select id="queryGoodByID" resultType="Good">
+        SELECT * FROM shop.goodstable WHERE id=#{id};
+    </select>
+
+    <select id="queryAllGoodByName" resultType="Good">
+        SELECT * FROM shop.goodstable WHERE gname LIKE "%"#{name}"%";
+    </select>
+
+    <select id="queryAllGoods" resultType="Good">
+        SELECT * FROM shop.goodstable;
+    </select>
+
+    <select id="queryGoodsByPage" parameterType="Map" resultType="Good">
+        SELECT * FROM shop.goodstable
+        limit ${(cur_page-1)*pageSize},#{pageSize}
+    </select>
+
+    <select id="queryGoodSum" resultType="Integer">
+        SELECT COUNT(1) FROM shop.goodstable;
+    </select>
+
+
+</mapper>
